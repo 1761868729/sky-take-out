@@ -8,6 +8,13 @@
         values
             (#{name},#{categoryId},#{price},#{image},#{description},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
     </insert>
+    <update id="update" parameterType="com.sky.entity.Dish"></update>
+    <delete id="deleteById" parameterType="com.sky.entity.Dish">
+        delete from dish where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
     <select id="pageQuery" resultType="com.sky.vo.DishVO" parameterType="com.sky.dto.DishPageQueryDTO">
         select d.* , c.name as categoryName from dish d left outer join category c on d.category_id = c.id
         <where>
@@ -23,4 +30,6 @@
         </where>
         order by d.create_time desc
     </select>
+    <select id="list" resultType="com.sky.entity.Dish" parameterType="com.sky.entity.Dish"></select>
+    <select id="countByMap" resultType="java.lang.Integer" parameterType="java.util.Map"></select>
 </mapper>
